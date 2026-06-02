@@ -2,7 +2,20 @@ use std::path::PathBuf;
 
 #[tauri::command]
 fn get_startup_file() -> Option<String> {
-  std::env::args().nth(1)
+  let arg = std::env::args().nth(1)?;
+  let path = PathBuf::from(arg);
+  let absolute_path = if path.is_absolute() {
+    path
+  } else {
+    let base_dir = std::env::var("INIT_CWD")
+      .map(PathBuf::from)
+      .or_else(|_| std::env::current_dir())
+      .ok()?;
+    
+    base_dir.join(path)
+  };
+
+  Some(absolute_path.to_string_lossy().to_string())
 }
 
 #[tauri::command]
