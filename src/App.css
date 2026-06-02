@@ -50,6 +50,44 @@ body {
   color: #ffffff;
 }
 
+.close-button {
+  width: 9px;
+  height: 9px;
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.close-button::before,
+.close-button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 1px;
+  background: #ffffff;
+  transform-origin: center;
+}
+
+.close-button::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.close-button:hover {
+  background: #3c3c3c;
+}
+
+.close-button:hover::before,
+.close-button:hover::after {
+  background: #cccccc;
+}
+
+
 .cm-editor {
   flex: 1;
   min-height: 92vh;

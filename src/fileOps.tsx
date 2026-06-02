@@ -4,22 +4,20 @@ export async function getPath(): Promise<string | null> {
   return await invoke<string | null>("get_startup_file");
 }
 
-export async function getFileContent(): Promise<string | undefined> {
-  const path = await getPath();
-  
+export async function getFileContent(
+  path: string,
+): Promise<string | undefined> {
   if (path) {
     const content = await invoke<string>("read_file", { path });
     return content;
   }
 }
 
-export async function saveFile(code: string): Promise<void> {
-  const path = await getPath();
-
+export async function saveFile(path: string, code: string): Promise<void> {
   if (path) {
     await invoke<void>("save_file", {
       path: path,
-      content: code
-    })
+      content: code,
+    });
   }
 }
