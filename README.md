@@ -7,3 +7,9 @@ Lightweight VSCode alternative on Tauri
 
 ## Launching (dev)
 `pnpm tauri dev`
+
+## Todo
+[x] Editor
+[x] Opening files
+[ ] Соответствие форматтера codemirror текущему языку
+[ ] Autocomplete
