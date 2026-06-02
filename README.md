@@ -12,5 +12,6 @@ Lightweight VSCode alternative on Tauri
 - [x] Editor
 - [x] Opening files
 - [x] Сохранение
+- [x] Менеджер вкладок с индикатором сохранения
 - [ ] Соответствие форматтера codemirror текущему языку
 - [ ] Autocomplete
