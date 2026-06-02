@@ -1,18 +1,21 @@
+import { useState, useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
+import { getFileContent } from './getFile';
 import "./App.css"
-import { EditorView } from '@codemirror/view';
-
-const myTheme = EditorView.theme({
-  "&": {
-    backgroundColor: "#1e1e1e", // Фон самого редактора
-  },
-  ".cm-gutters": {
-    backgroundColor: "#1e1e1e", // Цвет боковушки
-    color: "#5a5a5a",           // Цвет номеров строк
-    border: "none",             // Убрать белую полосу/границу
-  }
-}, { dark: true });
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { rust } from "@codemirror/lang-rust";
 
 export default function App() {
-  return <CodeMirror value="" height="96vh" theme={myTheme} />;
+  const [code, setCode] = useState("");
+
+  useEffect(() => {
+    async function loadFile() {
+      const content: string | undefined = await getFileContent();
+      setCode(content ?? "");
+    };
+    
+    loadFile();
+  }, []);
+  
+  return <CodeMirror value={code} height="100vh" theme={vscodeDark} extensions={[rust()]} />;
 }
