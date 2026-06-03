@@ -18,6 +18,7 @@ body {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid #252526;
+  gap: 0.25rem;
 }
 
 .tab {
@@ -84,6 +85,44 @@ body {
 
 .close-button:hover::before,
 .close-button:hover::after {
+  background: #cccccc;
+}
+
+.add-tab {
+  margin-left: 0.25rem;
+  width: 18px;
+  height: 18px;
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.add-tab::before,
+.add-tab::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 1px;
+  background: #ffffff;
+  transform-origin: center;
+}
+
+.add-tab::before {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.add-tab::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.add-tab:hover {
+  background: #3c3c3c;
+}
+
+.add-tab:hover::before,
+.add-tab:hover::after {
   background: #cccccc;
 }
 

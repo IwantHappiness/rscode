@@ -1,4 +1,4 @@
-import { getFileContent, getPath, saveFile } from "../fileOps";
+import { getFileContent, getPath, saveFile, openFilePicker } from "../fileOps";
 import { EditorTab } from "../types";
 import { useState, useEffect } from "react";
 
@@ -8,42 +8,54 @@ export default function useEditorTabs() {
 
   const activeTab = tabs.find((tab) => tab.id === activeTabId) ?? null;
 
-  useEffect(() => {
-    async function loadFile(): Promise<string | undefined> {
-      const path: string | undefined = (await getPath()) ?? "";
-      let content: string | undefined = "";
-      try {
-        content = (await getFileContent(path)) ?? "";
-      } catch (err) {
-        console.error("Failed to read file, opening empty file");
-      }
-
-      return content;
+  async function loadFile(path: string): Promise<string | undefined> {
+    // const path: string | undefined = (await getPath()) ?? "";
+    let content: string | undefined = "";
+    try {
+      content = (await getFileContent(path)) ?? "";
+    } catch (err) {
+      console.error("Failed to read file, opening empty file");
     }
 
+    return content;
+  }
+
+  function addTab(tab: EditorTab, path: string) {
+    setTabs((previousTabs) => {
+      const existingTab = previousTabs.find((tab) => tab.path === path);
+
+      if (existingTab) {
+        setActiveTabId(existingTab.id);
+        return previousTabs;
+      }
+
+      setActiveTabId(tab.id);
+      return [...previousTabs, tab];
+    });
+  }
+  
+  async function openFile(path: string): Promise<void> {
+    const content = await loadFile(path) ?? "";
+    const tab: EditorTab = {
+      id: crypto.randomUUID(),
+      path,
+      title: path.split("/").at(-1) ?? path,
+      content,
+      savedContent: content,
+      isDirty: false,
+    };
+    addTab(tab, path);
+  }
+
+  async function openTab() {
+    const file: string = await openFilePicker();
+    openFile(file);
+  }
+
+  useEffect(() => {
     async function main() {
       const path: string | undefined = (await getPath()) ?? "";
-      const content: string | undefined = (await loadFile()) ?? "";
-      const tab: EditorTab = {
-        id: crypto.randomUUID(),
-        path,
-        title: path.split("/").at(-1) ?? path,
-        content,
-        savedContent: content,
-        isDirty: false,
-      };
-
-      setTabs((previousTabs) => {
-        const existingTab = previousTabs.find((tab) => tab.path === path);
-
-        if (existingTab) {
-          setActiveTabId(existingTab.id);
-          return previousTabs;
-        }
-
-        setActiveTabId(tab.id);
-        return [...previousTabs, tab];
-      });
+      await openFile(path);
     }
     main();
   }, []);
@@ -83,5 +95,6 @@ export default function useEditorTabs() {
     setActiveTabId,
     updateActiveTabContent,
     saveActiveTab,
+    openTab
   };
 }

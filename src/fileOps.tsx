@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
+import { open } from '@tauri-apps/plugin-dialog';
 
 export async function getPath(): Promise<string | null> {
   return await invoke<string | null>("get_startup_file");
@@ -20,4 +21,12 @@ export async function saveFile(path: string, code: string): Promise<void> {
       content: code,
     });
   }
+}
+
+export async function openFilePicker(): Promise<string> {
+  const file = await open({
+    multiple: false,
+    directory: false,
+  });
+  return file ?? '';
 }
