@@ -64,7 +64,7 @@ export default function useEditorTabs() {
       if (activeTabId === id) { // if deleting an active tab
         if (newTabs.length > 0) { // if active tab is last element
           const closedIndex = prevTabs.findIndex((tab) => tab.id === id);
-          const nextActiveIndex = Math.min(closedIndex, newTabs.length - 1);
+          const nextActiveIndex = closedIndex - 1; // Math.min(closedIndex, newTabs.length - 1);
           setActiveTabId(newTabs[nextActiveIndex].id);
         } else {
           setActiveTabId(null);

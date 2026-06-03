@@ -20,7 +20,7 @@ export default function TabBar({
             {tab.isDirty ? (
               <span className="dirty-dot" />
             ) : (
-                <span className="close-button" onClick={() => closeTab(tab.id)} />
+                <span className="close-button" onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }} />
             )}
           </button>
         ))}
