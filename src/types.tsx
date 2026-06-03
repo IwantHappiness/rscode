@@ -12,13 +12,5 @@ export type TabBarProps = {
   activeTabId: string | null;
   onSelectTab: (id: string) => void;
   openTab: () => void;
-};
-
-export type UseEditorTabsResult = {
-  tabs: EditorTab[];
-  activeTab: EditorTab | null;
-  activeTabId: string | null;
-  setActiveTabId: (id: string) => void;
-  updateActiveTabContent: (content: string) => void;
-  saveActiveTab: (activeTab: EditorTab) => Promise<void>;
+  closeTab: (id: string) => void;
 };

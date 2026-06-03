@@ -20,7 +20,7 @@ export default function useEditorTabs() {
     return content;
   }
 
-  function addTab(tab: EditorTab, path: string) {
+  async function addTab(tab: EditorTab, path: string) {
     setTabs((previousTabs) => {
       const existingTab = previousTabs.find((tab) => tab.path === path);
 
@@ -33,9 +33,9 @@ export default function useEditorTabs() {
       return [...previousTabs, tab];
     });
   }
-  
+
   async function openFile(path: string): Promise<void> {
-    const content = await loadFile(path) ?? "";
+    const content = (await loadFile(path)) ?? "";
     const tab: EditorTab = {
       id: crypto.randomUUID(),
       path,
@@ -49,7 +49,31 @@ export default function useEditorTabs() {
 
   async function openTab() {
     const file: string = await openFilePicker();
-    openFile(file);
+    await openFile(file);
+  }
+
+  async function closeTab(id: string): Promise<void> {
+    // const aId = activeTabId; // alias
+    
+    const tabToClose = tabs.find((tab) => tab.id === id);
+    if (!tabToClose) return;
+
+    setTabs((prevTabs) => {
+      const newTabs = prevTabs.filter((tab) => tab.id !== id); // new array without deleted tab
+      
+      if (activeTabId === id) { // if deleting an active tab
+        if (newTabs.length > 0) { // if active tab is last element
+          const closedIndex = prevTabs.findIndex((tab) => tab.id === id);
+          const nextActiveIndex = Math.min(closedIndex, newTabs.length - 1);
+          setActiveTabId(newTabs[nextActiveIndex].id);
+        } else {
+          setActiveTabId(null);
+          openFile("");
+        }
+      }
+      
+      return newTabs;
+    });
   }
 
   useEffect(() => {
@@ -95,6 +119,7 @@ export default function useEditorTabs() {
     setActiveTabId,
     updateActiveTabContent,
     saveActiveTab,
-    openTab
+    openTab,
+    closeTab,
   };
 }
