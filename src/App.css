@@ -35,11 +35,13 @@ body {
 }
 
 .dirty-dot {
-  width: 9px;
-  height: 9px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   background: #ffffff;
   flex: 0 0 auto;
+  margin-left: 0.2rem;
+  margin-top: 1.25%;
 }
 
 .tab.active {
@@ -138,4 +140,4 @@ body {
   min-height: 92vh;
 }
 
-.cm-scroller { overflow: auto; };
+.cm-scroller { overflow: auto; }

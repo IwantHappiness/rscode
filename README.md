@@ -8,11 +8,16 @@ Lightweight VSCode alternative on Tauri
 ## Launching (dev)
 `pnpm tauri dev`
 
+## Building (release)
+`pnpm tauri build`
+
+Binary in @/src-tauri/target/release/bundle/appimage/rscode.AppDir/usr/bin/rscode
+
 ## Todo
 - [x] Editor
 - [x] Opening files
 - [x] Сохранение
 - [x] Менеджер вкладок с индикатором сохранения
-- [ ] Мультивкладочность (закрытие, добавление вкладок)
+- [x] Мультивкладочность (закрытие, добавление вкладок)
 - [ ] Соответствие форматтера codemirror текущему языку
 - [ ] Autocomplete
