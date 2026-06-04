@@ -15,7 +15,8 @@ export default function App() {
     updateActiveTabContent,
     saveActiveTab,
     openTab,
-    closeTab
+    closeTab,
+    closeDirty
   } = useEditorTabs();
 
   useSaveShortcut(saveActiveTab);
@@ -28,6 +29,7 @@ export default function App() {
         onSelectTab={setActiveTabId}
         openTab={openTab}
         closeTab={closeTab}
+        closeDirty={closeDirty}
       />
       {activeTab && (
         <CodeMirror

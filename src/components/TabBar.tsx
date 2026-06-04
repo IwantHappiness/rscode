@@ -5,7 +5,8 @@ export default function TabBar({
   activeTabId,
   onSelectTab,
   openTab,
-  closeTab
+  closeTab,
+  closeDirty
 }: TabBarProps) {
   return (
     <>
@@ -18,7 +19,7 @@ export default function TabBar({
           >
             {tab.title === "" && tab.path === "" ? "Unnamed" : tab.title}
             {tab.isDirty ? (
-              <span className="dirty-dot" />
+              <span className="dirty-dot" onClick={(e) => { e.stopPropagation(); closeDirty(tab.id) }} />
             ) : (
                 <span className="close-button" onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }} />
             )}

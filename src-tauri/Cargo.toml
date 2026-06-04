@@ -1,8 +1,8 @@
 [package]
 name = "rscode"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Lightweight VScode alternative on Tauri"
+authors = ["SyntaxWave Studio"]
 edition = "2021"
 
 [profile.release]

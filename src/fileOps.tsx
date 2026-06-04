@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
-import { open } from '@tauri-apps/plugin-dialog';
+import { open, save, ask } from '@tauri-apps/plugin-dialog';
 
 export async function getPath(): Promise<string | null> {
   return await invoke<string | null>("get_startup_file");
@@ -29,4 +29,17 @@ export async function openFilePicker(): Promise<string> {
     directory: false,
   });
   return file ?? '';
+}
+
+export async function openFileSaver(): Promise<string> {
+  const file = await save();
+  return file ?? '';
+}
+
+export async function openConfirm(): Promise<boolean> {
+  const confirmation = await ask(
+    'Unsaved changes will be lost. Are you sure?',
+    { title: 'RsCode', kind: 'warning' }
+  );
+  return confirmation;
 }

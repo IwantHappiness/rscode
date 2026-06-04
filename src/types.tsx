@@ -13,4 +13,5 @@ export type TabBarProps = {
   onSelectTab: (id: string) => void;
   openTab: () => void;
   closeTab: (id: string) => void;
+  closeDirty: (id: string) => void;
 };

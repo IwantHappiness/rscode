@@ -1,4 +1,4 @@
-import { getFileContent, getPath, saveFile, openFilePicker } from "../fileOps";
+import { getFileContent, getPath, saveFile, openFilePicker, openFileSaver, openConfirm } from "../fileOps";
 import { EditorTab } from "../types";
 import { useState, useEffect } from "react";
 
@@ -96,9 +96,24 @@ export default function useEditorTabs() {
     );
   }
 
+  async function closeDirty(id: string): Promise<void> {
+    if (!id) return;
+    if (await openConfirm()) {
+      closeTab(id);
+    } else {
+      await saveActiveTab();
+      await closeTab(id);
+    }
+  }
+
   async function saveActiveTab(): Promise<void> {
+    let path: string;
     if (!activeTab) return;
-    await saveFile(activeTab.path, activeTab.content);
+    if (activeTab.path == "") {
+      path = await openFileSaver();
+      if (path == "") return;
+    } else { path = activeTab.path; }
+    await saveFile(path, activeTab.content);
     setTabs((tabs) =>
       tabs.map((tab) =>
         tab.id === activeTab.id
@@ -121,5 +136,6 @@ export default function useEditorTabs() {
     saveActiveTab,
     openTab,
     closeTab,
+    closeDirty
   };
 }
