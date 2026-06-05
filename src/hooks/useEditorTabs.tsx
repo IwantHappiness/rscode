@@ -116,6 +116,9 @@ export default function useEditorTabs() {
     if (activeTab.path == "") {
       path = await openFileSaver();
       if (path == "") return;
+      activeTab.path = path;
+      activeTab.title = path.split("/").at(-1) ?? path;
+      activeTab.lang = activeTab.title.split(".").at(-1) ?? "txt";
     } else { path = activeTab.path; }
     await saveFile(path, activeTab.content);
     setTabs((tabs) =>
