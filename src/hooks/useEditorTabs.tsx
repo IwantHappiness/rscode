@@ -36,10 +36,12 @@ export default function useEditorTabs() {
 
   async function openFile(path: string): Promise<void> {
     const content = (await loadFile(path)) ?? "";
+    const title: string = path.split("/").at(-1) ?? path;
     const tab: EditorTab = {
       id: crypto.randomUUID(),
       path,
-      title: path.split("/").at(-1) ?? path,
+      title,
+      lang: title.split(".").at(-1) ?? "txt",
       content,
       savedContent: content,
       isDirty: false,
@@ -49,6 +51,7 @@ export default function useEditorTabs() {
 
   async function openTab() {
     const file: string = await openFilePicker();
+    if (!file) return;
     await openFile(file);
   }
 
@@ -79,6 +82,7 @@ export default function useEditorTabs() {
   useEffect(() => {
     async function main() {
       const path: string | undefined = (await getPath()) ?? "";
+      // if (path == "") return;
       await openFile(path);
     }
     main();

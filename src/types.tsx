@@ -2,6 +2,7 @@ export type EditorTab = {
   id: string;
   path: string;
   title: string;
+  lang: string;
   content: string;
   savedContent: string;
   isDirty: boolean;

@@ -2,9 +2,11 @@ import CodeMirror from "@uiw/react-codemirror";
 import TabBar from "./components/TabBar";
 import "./App.css";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-import { rust } from "@codemirror/lang-rust";
 import useEditorTabs from "./hooks/useEditorTabs";
 import useSaveShortcut from "./hooks/useSaveShortcut";
+import getLang from "./lang";
+import { Extension } from "@codemirror/state";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const {
@@ -16,10 +18,17 @@ export default function App() {
     saveActiveTab,
     openTab,
     closeTab,
-    closeDirty
+    closeDirty,
   } = useEditorTabs();
 
+  const [lang, setLang] = useState<Extension | undefined>(undefined);
+
   useSaveShortcut(saveActiveTab);
+
+  useEffect(() => {
+    if (!activeTab) return;
+    setLang(getLang(activeTab.lang));
+  }, [activeTab]);
 
   return (
     <>
@@ -36,7 +45,9 @@ export default function App() {
           key={activeTabId}
           value={activeTab.content}
           theme={vscodeDark}
-          extensions={[rust()]}
+          basicSetup={true}
+          // avoid putting undefined into the extensions array
+          extensions={lang ? [lang] : []}
           onChange={updateActiveTabContent}
         />
       )}
