@@ -19,5 +19,5 @@ Binary in @/src-tauri/target/release/bundle/appimage/rscode.AppDir/usr/bin/rscod
 - [x] Сохранение
 - [x] Менеджер вкладок с индикатором сохранения
 - [x] Мультивкладочность (закрытие, добавление вкладок)
-- [ ] Соответствие форматтера codemirror текущему языку
+- [x] Соответствие форматтера codemirror текущему языку
 - [ ] Autocomplete
